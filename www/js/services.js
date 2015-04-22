@@ -1,13 +1,93 @@
 angular.module('starter.services', [])
 
-.factory('Recommond', function() {
-        var recommonds = [{
-            id: 1,
-            avatar: '01.jpg',
-            author: '宋玉麟',
-            name: '',
-            description: ''
-        }];
+.factory('Recommonds', function() {
+        var recommonds =
+        [{
+            "_id": "553744f17a5cfb342436d7ad",
+            "description": "这个人的名字是李晓锋",
+            "name": "李晓锋1",
+            "__v": 0,
+            "works": [{
+                "_id": "553744f17a5cfb342436d7ae",
+                "name": "山水画0",
+                "description": "这个作品的名字是：山水画0",
+                "recommand": false
+            }, {
+                "_id": "553744f17a5cfb342436d7af",
+                "name": "山水画1",
+                "description": "这个作品的名字是：山水画1",
+                "recommand": true
+            }, {
+                "_id": "553744f17a5cfb342436d7b0",
+                "name": "山水画2",
+                "description": "这个作品的名字是：山水画2",
+                "recommand": false
+            }, {
+                "_id": "553744f17a5cfb342436d7b1",
+                "name": "山水画3",
+                "description": "这个作品的名字是：山水画3",
+                "recommand": true
+            }, {
+                "_id": "553744f17a5cfb342436d7b2",
+                "name": "山水画4",
+                "description": "这个作品的名字是：山水画4",
+                "recommand": false
+            }]
+        }, {
+            "_id": "55375319b7fdd798271e929d",
+            "description": "这个人的名字是李晓锋",
+            "name": "李晓锋2",
+            "__v": 0,
+            "works": [{
+                "_id": "55375319b7fdd798271e929e",
+                "name": "山水画0",
+                "description": "这个作品的名字是：山水画0",
+                "recommand": false
+            }, {
+                "_id": "55375319b7fdd798271e929f",
+                "name": "山水画1",
+                "description": "这个作品的名字是：山水画1",
+                "recommand": true
+            }, {
+                "_id": "55375319b7fdd798271e92a0",
+                "name": "山水画2",
+                "description": "这个作品的名字是：山水画2",
+                "recommand": false
+            }, {
+                "_id": "55375319b7fdd798271e92a1",
+                "name": "山水画3",
+                "description": "这个作品的名字是：山水画3",
+                "recommand": true
+            }, {
+                "_id": "55375319b7fdd798271e92a2",
+                "name": "山水画4",
+                "description": "这个作品的名字是：山水画4",
+                "recommand": false
+            }]
+        }]
+        ;
+
+        return {
+            all: function() {
+                return recommonds;
+            },
+            getExpert: function(expertId) {
+                for (var i = 0; i < experts.length; i++) {
+                    if (experts[i].id === parseInt(expertId)) {
+                        return experts[i];
+                    }
+                }
+                return null;
+            },
+            getWork: function(workId) {
+                for (var i = 0; i < works.length; i++) {
+                    if (works[i].id === parseInt(workId)) {
+                        return works[i];
+                    }
+                }
+                return null;
+            }
+        };
     })
     .factory('Experts', function() {
         var experts = [{
