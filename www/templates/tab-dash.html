@@ -3,14 +3,13 @@
     <ion-refresher on-refresh="doRefresh()">
       </ion-refresher>
         <div class="list card"  ng-repeat="expert in experts">
-            <ion-item class="item item-avatar item-remove-animate" href="#/tab/dash-expert/10001">
-                <img src="images/experts/01.jpg">
+            <ion-item class="item item-avatar item-remove-animate" href="#/tab/dash-expert/{{expert._id}}">
+                <img ng-src="images/experts/{{expert.avatar}}">
                 <h2>{{expert.name}}</h2>
                 <p>{{expert.description}}</p>
             </ion-item>
             <div class="item item-body" ng-repeat="work in expert.works">
-                <!-- <ion-item href="#/tab/dash-work/20001"> -->
-                <a href="#/tab/dash-work/20001"><img class="full-image" src="images/works/01-001.jpg"></a>
+                <a href="#/tab/dash-work/{{work._id}}"><img class="full-image" src="images/works/01-001.jpg"></a>
                 <p>
                     {{work.description}}
                 </p>

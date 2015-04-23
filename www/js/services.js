@@ -1,12 +1,12 @@
 angular.module('starter.services', ['ionic', 'ngResource'])
-
-.factory('Recommends', function($http, $q) {
+    .constant('baseUrl', 'http://localhost:3000')
+    .factory('Recommends', function($http, $q, baseUrl) {
         return {
             all: function() {
                 var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
                 $http({
                     method: 'GET',
-                    url: 'http://localhost:3000/experts/recommend'
+                    url: baseUrl + '/experts/recommend'
                 }).
                 success(function(data, status, headers, config) {
                     deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了
@@ -25,7 +25,7 @@ angular.module('starter.services', ['ionic', 'ngResource'])
                 var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
                 $http({
                     method: 'GET',
-                    url: 'http://localhost:3000/experts'
+                    url: baseUrl + '/experts'
                 }).
                 success(function(data, status, headers, config) {
                     deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了
@@ -41,7 +41,7 @@ angular.module('starter.services', ['ionic', 'ngResource'])
                 var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
                 $http({
                     method: 'GET',
-                    url: 'http://localhost:3000/expert/' + expertId
+                    url: http_server + '/expert/' + expertId
                 }).
                 success(function(data, status, headers, config) {
                     deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了
@@ -67,7 +67,7 @@ angular.module('starter.services', ['ionic', 'ngResource'])
                 var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
                 $http({
                     method: 'GET',
-                    url: 'http://localhost:3000/work/' + worktId
+                    url: baseUrl + '/work/' + worktId
                 }).
                 success(function(data, status, headers, config) {
                     deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了

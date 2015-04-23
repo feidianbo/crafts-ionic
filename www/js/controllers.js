@@ -1,62 +1,38 @@
 angular.module('starter.controllers', [])
-
-.controller('DashCtrl', function($scope, $http, $stateParams, Recommends) {
-        var promise = Recommends.all(); // 同步调用，获得承诺接口
-        promise.then(function(data) { // 调用承诺API获取数据 .resolve
-            $scope.experts = data;
-            console.log(data);
-        }, function(data) { // 处理错误 .reject
-            $scope.experts = {
-                error: '用户不存在！'
-            };
+    .constant('baseUrl', 'http://localhost:3000')
+    .controller('DashCtrl', function($scope, $resource, $stateParams, Recommends, baseUrl) {
+        $scope.expertsResource = $resource(baseUrl + '/experts/' + ':id', {
+            id: '@id'
         });
+        $scope.experts = $scope.expertsResource.query();
 
         $scope.doRefresh = function() {
-            console.log('Refreshing!');
-
-            promise.then(function(data) { // 调用承诺API获取数据 .resolve
-                $scope.experts = data;
-            }, function(data) { // 处理错误 .reject
-                $scope.experts = {
-                    error: '用户不存在！'
-                };
+            $scope.expertsResource = $resource(baseUrl + '/experts/' + ':id', {
+                id: '@id'
             });
-            //Stop the ion-refresher from spinning
+            $scope.experts = $scope.expertsResource.query();
+
             $scope.$broadcast('scroll.refreshComplete');
         }
     })
-    .controller('DashExpertCtrl', function($scope, $stateParams, Experts) {
-        var promise = Experts.get($stateParams.expertId); // 同步调用，获得承诺接口
+    .controller('DashExpertCtrl', function($scope, $http, $resource, $stateParams, Experts, baseUrl) {
+        // $scope.expertResource = $resource(baseUrl + '/expert/' + ':id', {id: $stateParams.expertId});
+        // $scope.expert = $scope.expertResource.query();
 
-        promise.then(function(data) { // 调用承诺API获取数据 .resolve
+        $http.get(baseUrl + '/expert/' + $stateParams.expertId).success(function(data) {
             $scope.expert = data;
-        }, function(data) { // 处理错误 .reject
-            $scope.expert = {
-                error: '用户不存在！'
-            };
         });
     })
-    .controller('DashWorkCtrl', function($scope, $stateParams, Works) {
-        var promise = Works.get($stateParams.workId); // 同步调用，获得承诺接口
-
-        promise.then(function(data) { // 调用承诺API获取数据 .resolve
+    .controller('DashWorkCtrl', function($scope, $http, $stateParams, Works, baseUrl) {
+        $http.get(baseUrl + '/work/' + $stateParams.workId).success(function(data) {
             $scope.work = data;
-        }, function(data) { // 处理错误 .reject
-            $scope.work = {
-                error: '用户不存在！'
-            };
         });
     })
-    .controller('ExpertsCtrl', function($scope, Experts) {
-        var promise = Experts.all(); // 同步调用，获得承诺接口
-        promise.then(function(data) { // 调用承诺API获取数据 .resolve
-            $scope.experts = data;
-            console.log(data);
-        }, function(data) { // 处理错误 .reject
-            $scope.experts = {
-                error: '用户不存在！'
-            };
+    .controller('ExpertsCtrl', function($scope, $resource, Experts, baseUrl) {
+        $scope.expertsResource = $resource(baseUrl + '/experts/' + ':id', {
+            id: '@id'
         });
+        $scope.experts = $scope.expertsResource.query();
 
         $scope.remove = function(expert) {
             Experts.remove(expert);
@@ -76,51 +52,43 @@ angular.module('starter.controllers', [])
             $scope.$broadcast('scroll.refreshComplete');
         }
     })
+    .controller('ExpertCtrl', function($scope, $http, $stateParams, Experts, baseUrl) {
+        $http.get(baseUrl + '/expert/' + $stateParams.expertId).success(function(data) {
+            $scope.expert = data;
+        });
+    })
+    .controller('WorksCtrl', function($scope, $resource, Works, baseUrl) {
+        $scope.worksResource = $resource(baseUrl + '/works/' + ':id', {
+            id: '@id'
+        });
+        $scope.works = $scope.worksResource.query();
 
-.controller('ExpertCtrl', function($scope, $stateParams, Experts) {
-    var promise = Experts.get($stateParams.expertId); // 同步调用，获得承诺接口
+        $scope.doRefresh = function() {
+            console.log('Refreshing!');
 
-    promise.then(function(data) { // 调用承诺API获取数据 .resolve
-        $scope.expert = data;
-    }, function(data) { // 处理错误 .reject
-        $scope.expert = {
-            error: '用户不存在！'
-        };
-    });
-})
+            var work = {
+                id: 20001,
+                author: {
+                    id: 10001
+                },
+                name: '作品一',
+                description: '这是一个用来测试的作品。',
+                image: '01-001.jpg',
+                likes: 0,
+                comments: 0
+            };
 
-.controller('WorksCtrl', function($scope, Works) {
-    $scope.works = Works.all();
-    $scope.remove = function(work) {
-        Works.remove(work);
-    }
-
-    $scope.doRefresh = function() {
-        console.log('Refreshing!');
-
-        var work = {
-            id: 20001,
-            author: {
-                id: 10001
-            },
-            name: '作品一',
-            description: '这是一个用来测试的作品。',
-            image: '01-001.jpg',
-            likes: 0,
-            comments: 0
-        };
-
-        $scope.works.push(work);
-        //Stop the ion-refresher from spinning
-        $scope.$broadcast('scroll.refreshComplete');
-    }
-})
-
-.controller('WorkCtrl', function($scope, $stateParams, Works) {
-    $scope.work = Works.get($stateParams.workId);
-})
-
-.controller('AccountCtrl', function($scope) {
+            $scope.works.push(work);
+            //Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+    })
+    .controller('WorkCtrl', function($scope, $http, $stateParams, Works, baseUrl) {
+        $http.get(baseUrl + '/work/' + $stateParams.workId).success(function(data) {
+            $scope.work = data;
+        });
+    })
+    .controller('AccountCtrl', function($scope) {
         $scope.settings = {
             enableFriends: true
         };
