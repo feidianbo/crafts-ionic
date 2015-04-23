@@ -1,69 +1,60 @@
 angular.module('starter.services', ['ionic', 'ngResource'])
 
 .factory('Recommends', function($http, $q) {
-        // var recommends = $resource('http://localhost:3000/experts/recommend', {
-        //     format: 'json',
-        //     jsoncallback: 'JSON_CALLBACK'
-        // }, {
-        //     'load': {
-        //         'method': 'JSON'
-        //     }
-        // });
         return {
             all: function() {
-                var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行  
+                var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
                 $http({
                     method: 'GET',
                     url: 'http://localhost:3000/experts/recommend'
                 }).
                 success(function(data, status, headers, config) {
-                    deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了  
+                    deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了
                 }).
                 error(function(data, status, headers, config) {
-                    deferred.reject(data); // 声明执行失败，即服务器返回错误  
+                    deferred.reject(data); // 声明执行失败，即服务器返回错误
                 });
 
-                return deferred.promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API 
+                return deferred.promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             }
         };
     })
-    .factory('Experts', function($resource, $q) {
-        var experts = $resource('http://localhost:3000/experts', {
-            format: 'json',
-            jsoncallback: 'JSON_CALLBACK'
-        }, {
-            'load': {
-                'method': 'JSON'
-            }
-        });
-
+    .factory('Experts', function($http, $q) {
         return {
             all: function() {
-                return experts;
+                var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
+                $http({
+                    method: 'GET',
+                    url: 'http://localhost:3000/experts'
+                }).
+                success(function(data, status, headers, config) {
+                    deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了
+                }).
+                error(function(data, status, headers, config) {
+                    deferred.reject(data); // 声明执行失败，即服务器返回错误
+                });
+
+                return deferred.promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
             get: function(expertId) {
-                for (var i = 0; i < works.length; i++) {
-                    if (experts[i].id === parseInt(expertId)) {
-                        return experts[i];
-                    }
-                }
-                return null;
+                console.log(expertId);
+                var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
+                $http({
+                    method: 'GET',
+                    url: 'http://localhost:3000/expert/' + expertId
+                }).
+                success(function(data, status, headers, config) {
+                    deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了
+                }).
+                error(function(data, status, headers, config) {
+                    deferred.reject(data); // 声明执行失败，即服务器返回错误
+                });
+
+                return deferred.promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             }
         };
     })
-    .factory('Works', function($resource, $q) {
-        var works = [{
-            id: 20001,
-            author: {
-                id: 10001
-            },
-            name: '作品一',
-            description: '这是一个用来测试的作品。',
-            image: '01-001.jpg',
-            likes: 0,
-            comments: 0
-        }];
-
+    .factory('Works', function($http, $q) {
         return {
             all: function() {
                 return works;
@@ -71,14 +62,21 @@ angular.module('starter.services', ['ionic', 'ngResource'])
             remove: function(work) {
                 works.splice(works.indexOf(work), 1);
             },
-            get: function(workId) {
-                for (var i = 0; i < works.length; i++) {
-                    if (works[i].id === parseInt(workId)) {
-                        // works[i].author = experts.get(works[i].author.id);
-                        return works[i];
-                    }
-                }
-                return null;
+            get: function(worktId) {
+                console.log(worktId);
+                var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
+                $http({
+                    method: 'GET',
+                    url: 'http://localhost:3000/work/' + worktId
+                }).
+                success(function(data, status, headers, config) {
+                    deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了
+                }).
+                error(function(data, status, headers, config) {
+                    deferred.reject(data); // 声明执行失败，即服务器返回错误
+                });
+
+                return deferred.promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             }
         };
     })

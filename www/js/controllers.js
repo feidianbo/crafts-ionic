@@ -1,11 +1,11 @@
 angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $http, $stateParams, Recommends) {
-        var promise = Recommends.all(); // 同步调用，获得承诺接口  
-        promise.then(function(data) { // 调用承诺API获取数据 .resolve  
+        var promise = Recommends.all(); // 同步调用，获得承诺接口
+        promise.then(function(data) { // 调用承诺API获取数据 .resolve
             $scope.experts = data;
             console.log(data);
-        }, function(data) { // 处理错误 .reject  
+        }, function(data) { // 处理错误 .reject
             $scope.experts = {
                 error: '用户不存在！'
             };
@@ -14,9 +14,9 @@ angular.module('starter.controllers', [])
         $scope.doRefresh = function() {
             console.log('Refreshing!');
 
-            promise.then(function(data) { // 调用承诺API获取数据 .resolve  
+            promise.then(function(data) { // 调用承诺API获取数据 .resolve
                 $scope.experts = data;
-            }, function(data) { // 处理错误 .reject  
+            }, function(data) { // 处理错误 .reject
                 $scope.experts = {
                     error: '用户不存在！'
                 };
@@ -26,21 +26,67 @@ angular.module('starter.controllers', [])
         }
     })
     .controller('DashExpertCtrl', function($scope, $stateParams, Experts) {
-        $scope.expert = Experts.get($stateParams.expertId);
+        var promise = Experts.get($stateParams.expertId); // 同步调用，获得承诺接口
+
+        promise.then(function(data) { // 调用承诺API获取数据 .resolve
+            $scope.expert = data;
+        }, function(data) { // 处理错误 .reject
+            $scope.expert = {
+                error: '用户不存在！'
+            };
+        });
     })
     .controller('DashWorkCtrl', function($scope, $stateParams, Works) {
-        $scope.work = Works.get($stateParams.workId);
+        var promise = Works.get($stateParams.workId); // 同步调用，获得承诺接口
+
+        promise.then(function(data) { // 调用承诺API获取数据 .resolve
+            $scope.work = data;
+        }, function(data) { // 处理错误 .reject
+            $scope.work = {
+                error: '用户不存在！'
+            };
+        });
     })
     .controller('ExpertsCtrl', function($scope, Experts) {
-        $scope.experts = Experts.all();
+        var promise = Experts.all(); // 同步调用，获得承诺接口
+        promise.then(function(data) { // 调用承诺API获取数据 .resolve
+            $scope.experts = data;
+            console.log(data);
+        }, function(data) { // 处理错误 .reject
+            $scope.experts = {
+                error: '用户不存在！'
+            };
+        });
+
         $scope.remove = function(expert) {
             Experts.remove(expert);
+        }
+
+        $scope.doRefresh = function() {
+            console.log('Refreshing!');
+
+            promise.then(function(data) { // 调用承诺API获取数据 .resolve
+                $scope.experts = data;
+            }, function(data) { // 处理错误 .reject
+                $scope.experts = {
+                    error: '用户不存在！'
+                };
+            });
+            //Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
         }
     })
 
 .controller('ExpertCtrl', function($scope, $stateParams, Experts) {
-    console.log($stateParams);
-    $scope.expert = Experts.get($stateParams.expertId);
+    var promise = Experts.get($stateParams.expertId); // 同步调用，获得承诺接口
+
+    promise.then(function(data) { // 调用承诺API获取数据 .resolve
+        $scope.expert = data;
+    }, function(data) { // 处理错误 .reject
+        $scope.expert = {
+            error: '用户不存在！'
+        };
+    });
 })
 
 .controller('WorksCtrl', function($scope, Works) {
