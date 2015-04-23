@@ -1,10 +1,12 @@
 <ion-view view-title="推荐">
     <ion-content class="padding">
+    <ion-refresher on-refresh="doRefresh()">
+      </ion-refresher>
         <div class="list card"  ng-repeat="expert in experts">
             <ion-item class="item item-avatar item-remove-animate" href="#/tab/dash-expert/10001">
                 <img src="images/experts/01.jpg">
                 <h2>{{expert.name}}</h2>
-                <p>November 05, 1955</p>
+                <p>{{expert.description}}</p>
             </ion-item>
             <div class="item item-body" ng-repeat="work in expert.works">
                 <!-- <ion-item href="#/tab/dash-work/20001"> -->
